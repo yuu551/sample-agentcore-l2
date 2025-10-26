@@ -5,7 +5,7 @@ AWS CDK v2.221.0 で追加された Amazon Bedrock AgentCore の L2 Construct �
 ## 関連ブログ記事
 
 詳細な解説はこちらのブログ記事をご覧ください：
-[ブログ記事のリンク]
+https://dev.classmethod.jp/articles/cdk-amazon-bedrock-agentcore-l2-construct-strands-agents/
 
 ## 概要
 
