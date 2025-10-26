@@ -54,66 +54,12 @@ npm run build
 npm run cdk deploy
 ```
 
-## Bedrock 権限の3つの設定方法
-
-このサンプルでは、Bedrock の権限を付与する3つの方法を紹介しています：
-
-### 方法1: `addToRolePolicy()` を使う（現在採用）
-
-```typescript
-runtime.addToRolePolicy(
-  new iam.PolicyStatement({
-    effect: iam.Effect.ALLOW,
-    actions: ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"],
-    resources: [`arn:aws:bedrock:${this.region}::foundation-model/*`],
-  })
-);
-```
-
-- ✅ 安定版のパッケージのみ使用
-- ✅ 権限の範囲を柔軟にカスタマイズ可能
-
-### 方法2: `BedrockFoundationModel.grantInvoke()`
-
-```typescript
-const model = bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0;
-model.grantInvoke(runtime);
-```
-
-- ✅ コードがシンプル
-- ❌ alpha版パッケージが必要
-
-### 方法3: `CrossRegionInferenceProfile.grantInvoke()`
-
-```typescript
-const inferenceProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
-  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0
-});
-inferenceProfile.grantInvoke(runtime);
-```
-
-- ✅ クロスリージョン対応
-- ❌ alpha版パッケージが必要
-
-詳細は `lib/sample-agentcore-l2-stack.ts` のコメントを参照してください。
-
 ## 動作確認
 
-デプロイ後、AWS コンソールの Amazon Bedrock → AgentCore → Runtimes からテストできます。
+デプロイ後、AWS コンソールから、テスト > エージェントサンドボックス タブでペイロードを送信してみます。
 
 ```json
 {
   "prompt": "東京の天気を教えて"
 }
 ```
-
-## 参考資料
-
-- [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/)
-- [Amazon Bedrock AgentCore L2 Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-bedrock-agentcore-alpha-readme.html)
-- [Strands Agents](https://github.com/strands-ai/strands-agents)
-
-## ライセンス
-
-MIT License
